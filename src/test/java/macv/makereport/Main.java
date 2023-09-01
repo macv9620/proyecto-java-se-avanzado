@@ -1,4 +1,4 @@
-package com.macv.makereport;
+package macv.makereport;
 
 public class Main {
 

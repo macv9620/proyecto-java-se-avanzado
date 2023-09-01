@@ -1,4 +1,4 @@
-package com.macv.amazonviewer.model;
+package macv.amazonviewer.model;
 
 import java.util.ArrayList;
 import java.util.Date;

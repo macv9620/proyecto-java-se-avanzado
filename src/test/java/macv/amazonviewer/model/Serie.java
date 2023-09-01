@@ -1,4 +1,4 @@
-package com.macv.amazonviewer.model;
+package macv.amazonviewer.model;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,6 @@ public class Serie extends Film  {
 
 	public Serie(String title, String genre, String creator, int duration, int sessionQuantity) {
 		super(title, genre, creator, duration);
-		// TODO Auto-generated constructor stub
 		this.sessionQuantity = sessionQuantity;
 	}
 
@@ -61,4 +60,19 @@ public class Serie extends Film  {
 		return series;
 	}
 
+	@Override
+	public void view() {
+		ArrayList<Chapter> chapters = this.getChapters();
+
+		int viewedChapters = 0;
+		for (Chapter chapter: chapters) {
+			if (chapter.getIsViewed()){
+				viewedChapters++;
+			}
+		}
+
+		if (chapters.size() == viewedChapters){
+			this.setViewed(true);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package com.macv.amazonviewer.model;
+package macv.amazonviewer.model;
 
 import java.util.ArrayList;
 
@@ -54,14 +54,17 @@ public class Chapter extends Movie {
 
 	public static ArrayList<Chapter> makeChaptersList(Serie serie) {
 		ArrayList<Chapter> chapters = new ArrayList();
-
 		for (int i = 1; i <= 5; i++) {
 			chapters.add(new Chapter("Capituo "+i, "genero "+i, "creator" +i, 45, (short)(2017+i), i, serie));
 		}
-
 		return chapters;
 	}
 
+	@Override
+	public void view() {
+		super.view();
+		serie.view();
+	}
 }
 
 

@@ -1,4 +1,4 @@
-package com.macv.makereport;
+package macv.makereport;
 
 import java.io.BufferedWriter;
 import java.io.File;

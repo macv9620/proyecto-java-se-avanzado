@@ -1,22 +1,18 @@
-package com.macv.amazonviewer;
+package macv.amazonviewer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.macv.amazonviewer.model.Book;
-import com.macv.amazonviewer.model.Chapter;
-import com.macv.amazonviewer.model.Magazine;
-import com.macv.amazonviewer.model.Movie;
-import com.macv.amazonviewer.model.Serie;
-import com.macv.makereport.Report;
-import com.macv.util.AmazonUtil;
+import macv.amazonviewer.model.*;
+
+
+import macv.makereport.Report;
+import macv.util.AmazonUtil;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 		showMenu();
 
 	}
@@ -35,6 +31,7 @@ public class Main {
 			System.out.println("5. Report");
 			System.out.println("6. Report Today");
 			System.out.println("0. Exit");
+
 
 			//Leer la respuesta del usuario
 			int response = AmazonUtil.validateUserResponseMenu(0, 6);
@@ -77,7 +74,7 @@ public class Main {
 
 		}while(exit != 0);
 	}
-
+	//MODIFICADO
 	static ArrayList<Movie> movies = Movie.makeMoviesList();
 	public static void showMovies() {
 		int exit = 1;
@@ -104,18 +101,7 @@ public class Main {
 			}
 			if (response > 0) {
 				Movie movieSelected = movies.get(response-1);
-				movieSelected.setViewed(true);
-				Date dateI = movieSelected.startToSee(new Date());
-
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
-
-				//Termine de verla
-				movieSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Viste: " + movieSelected);
-				System.out.println("Por: " + movieSelected.getTimeViewed() + " milisegundos");
+				movieSelected.view();
 			}
 
 
@@ -180,18 +166,7 @@ public class Main {
 
 			if(response > 0) {
 				Chapter chapterSelected = chaptersOfSerieSelected.get(response-1);
-				chapterSelected.setViewed(true);
-				Date dateI = chapterSelected.startToSee(new Date());
-
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
-
-				//Termine de verla
-				chapterSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Viste: " + chapterSelected);
-				System.out.println("Por: " + chapterSelected.getTimeViewed() + " milisegundos");
+				chapterSelected.view();
 			}
 		}while(exit !=0);
 	}
@@ -222,18 +197,46 @@ public class Main {
 
 			if(response > 0) {
 				Book bookSelected = books.get(response-1);
-				bookSelected.setReaded(true);
+
+				int goToPageNumber = 0;
 				Date dateI = bookSelected.startToSee(new Date());
+				do{
+					System.out.println(":: PAGES ::");
+					System.out.println();
+					System.out.println(bookSelected.getPages().get(goToPageNumber).getContent());
+					System.out.println();
+					if (goToPageNumber == 0){
+						System.out.println("1. Siguiente página");
+						System.out.println("0. Regresar al menú");
+						response = AmazonUtil.validateUserResponseMenu(0, 1);
 
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
+						if (response == 1){
+							goToPageNumber++;
+						}
+					} else if (goToPageNumber == (bookSelected.getPages().size()-1)){
+						System.out.println("1. Anterior página");
+						System.out.println("0. Regresar al menú");
+						bookSelected.stopToSee(dateI, new Date());
+						bookSelected.view();
+						response = AmazonUtil.validateUserResponseMenu(0, 1);
 
-				//Termine de verla
-				bookSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Leíste: " + bookSelected);
-				System.out.println("Por: " + bookSelected.getTimeReaded() + " milisegundos");
+						if (response == 1){
+							goToPageNumber--;
+						}
+					} else {
+						System.out.println("1. Siguiente página");
+						System.out.println("2. Anterior página");
+						System.out.println("0. Regresar al menú");
+						response = AmazonUtil.validateUserResponseMenu(0, 2);
+						if (response == 1){
+							goToPageNumber++;
+						} else if (response == 2){
+							goToPageNumber--;
+						}
+					}
+
+				}while (response != 0);
+;
 			}
 
 		}while(exit !=0);

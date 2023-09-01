@@ -1,4 +1,4 @@
-package com.macv.util;
+package macv.util;
 
 import java.util.Scanner;
 

@@ -1,4 +1,6 @@
-package com.macv.amazonviewer.model;
+package macv.amazonviewer.model;
+
+import macv.amazonviewer.db.IDBConnection;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,12 +10,14 @@ public class Book extends Publication implements IVisualizable {
 	private String isbn;
 	private boolean readed;
 	private int timeReaded;
+	private ArrayList<Page> pages;
 
 
-	public Book(String title, Date edititionDate, String editorial, String[] authors) {
+	public Book(String title, Date edititionDate, String editorial, String[] authors, ArrayList<Page> pages) {
 		super(title, edititionDate, editorial);
 		// TODO Auto-generated constructor stub
 		setAuthors(authors);
+		setPages(pages);
 	}
 
 
@@ -76,6 +80,13 @@ public class Book extends Publication implements IVisualizable {
 		return  detailBook;
 	}
 
+	public ArrayList<Page> getPages() {
+		return pages;
+	}
+
+	public void setPages(ArrayList<Page> pages) {
+		this.pages = pages;
+	}
 
 	@Override
 	public Date startToSee(Date dateI) {
@@ -96,16 +107,73 @@ public class Book extends Publication implements IVisualizable {
 
 
 	public static ArrayList<Book> makeBookList() {
-		ArrayList<Book> books = new ArrayList();
+		ArrayList<Book> books = new ArrayList<>();
 		String[] authors = new String[3];
+		ArrayList<Page> pages = new ArrayList<>();
+
+		for(int i = 1; i<4; i++){
+			Page page = new Page(
+					i,
+					"This is a perfect book, page: " + i
+			);
+
+			pages.add(page);
+		}
+
 		for (int i = 0; i < 3; i++) {
 			authors[i] = "author "+i;
 		}
 		for (int i = 1; i <= 5; i++) {
-			books.add(new Book("Book " + i, new Date(), "editorial " + i, authors));
+			books.add(new Book("Book " + i, new Date(), "editorial " + i, authors, pages));
 		}
 
 		return books;
+	}
+
+	public void view(){
+
+
+		this.setReaded(true);
+		//Termine de verla
+
+		System.out.println();
+		System.out.println("Leíste: " + toString());
+		System.out.println("Por: " + this.getTimeReaded() + " milisegundos");
+	}
+
+	public static class Page{
+		private int id;
+		private int pageNumber;
+		private String content;
+
+		public Page(int pageNumber, String content) {
+			this.pageNumber = pageNumber;
+			this.content = content;
+		}
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public int getPageNumber() {
+			return pageNumber;
+		}
+
+		public void setPageNumber(int pageNumber) {
+			this.pageNumber = pageNumber;
+		}
+
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
+		}
 	}
 
 }
